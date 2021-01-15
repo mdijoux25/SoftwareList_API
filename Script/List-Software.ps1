@@ -8,7 +8,7 @@ Function Get-Software() {
 
 
 $osver = (Get-WmiObject -ComputerName $env:COMPUTERNAME -Credential $Credential -Class Win32_OperatingSystem).Version
-$Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName }| Select-Object DisplayName, DisplayVersion, Publisher | Format-list | Out-String
+$Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName }| Select-Object DisplayName, DisplayVersion, Publisher | ConvertTo-Json
 
 
 
@@ -19,7 +19,7 @@ $apinfo = New-Object psobject -Property @{
     "OS"                = $osver
     "Username"          = $env:USERNAME
     "Domain"            = $env:USERDOMAIN
-    "Software"          = (@($Software) -join ',')
+    "Software"          = $Software
     "Count of Software" = $Software.count
 
 }
