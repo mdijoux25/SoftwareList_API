@@ -8,7 +8,7 @@ Function Get-Software() {
 
 
 $osver = (Get-WmiObject -ComputerName $env:COMPUTERNAME -Credential $Credential -Class Win32_OperatingSystem).Version
-$Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName }| Select-Object DisplayName, DisplayVersion, Publisher | ConvertTo-Json
+$Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName }| Select-Object DisplayName, DisplayVersion, Publisher | Format-List | Out-String
 
 
 
