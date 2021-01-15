@@ -19,9 +19,9 @@ $apinfo = New-Object psobject -Property @{
     "OS"                = $osver
     "Username"          = $env:USERNAME
     "Domain"            = $env:USERDOMAIN
-    "Publisher"         = (@($Software) -join ',')
-    "DisplayName"       = $DisplayName
-    "DisplayVersion"    = $DisplayVersion
+    "Publisher"         = @($Software.Publisher | out-string).trim()
+    "DisplayName"       = @($Software.DisplayName | out-string).trim()
+    "DisplayVersion"    = @($Software.DisplayVersion | out-string).trim()
     "Count of Software" = $Software.count
 
 }
