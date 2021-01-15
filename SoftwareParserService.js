@@ -5,7 +5,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'List of Software', 'Count of Software']
+const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Publisher', 'DisplayName', 'DisplayVersion', 'Count of Software']
 const dataDir = path.join(__dirname, 'data')
 const dataFile = path.join(dataDir, 'Software-Listing.log')
 const errorFile = path.join(dataDir, 'Software-Listing_error.log')
