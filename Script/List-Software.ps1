@@ -19,7 +19,7 @@ $apinfo = New-Object psobject -Property @{
     "OS"                = $osver
     "Username"          = $env:USERNAME
     "Domain"            = $env:USERDOMAIN
-    "Software"          = (@($Software | Out-String)).Trim()
+    "Software"          = @([string]::Concat($Software) | Out-String).Trim()
     "Count of Software" = $Software.count
 
 }
