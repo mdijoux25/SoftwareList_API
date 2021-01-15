@@ -8,14 +8,12 @@ const path = require('path')
 const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Software', 'Count of Software']
 const dataDir = path.join(__dirname, 'data')
 const dataFile = path.join(dataDir, 'Software-Listing.log')
-const errorFile = path.join(dataDir, 'Software-Listing_error.log')
 const finalCSV = path.join(dataDir, 'Software-Listing_final.csv')
 
 // create data directories and files
 fs.existsSync(dataDir) || fs.mkdirSync(dataDir)
 fs.existsSync(dataFile) || fs.open(dataFile, 'w', (err) => { if (err) throw err })
-fs.existsSync(errorFile) || fs.open(errorFile, 'w', (err) => { if (err) throw err })
-fs.existsSync(errorFile) || fs.writeFileSync(finalCSV, `"Timestamp",${regStructValues.map(value => { return '"' + value + '"' })}\n`)
+fs.existsSync(dataFile) || fs.writeFileSync(finalCSV, `"Timestamp",${regStructValues.map(value => { return '"' + value + '"' })}\n`)
 
 async function parseListing(softwarelist){
 // timestamp
@@ -32,7 +30,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
 
   if (!exists) {
     // log successful registration
-    fs.appendFileSync(dataFile, JSON.stringify(softwarelist) + '\n', (err) => {
+    fs.appendFileSync(dataFile, softwarelist['Timestamp', 'Hostname', 'Username', 'Count of Software'] + '\n', (err) => {
       if (err) throw err
     })
 
@@ -40,7 +38,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
         fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
             if (err) throw err
           })
-          console.log(softwarelist['Timestamp'] + " : " + "Successful.")
+          console.log(softwarelist['Timestamp', 'Hostname'] + " : " + "Successful.")
           return { "response": "success" }
         }
         else {
