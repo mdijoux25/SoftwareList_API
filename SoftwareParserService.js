@@ -7,13 +7,13 @@ const path = require('path')
 
 const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Software']
 const dataDir = path.join(__dirname, 'data')
-const jsonDir = path.join(dataDir, 'JSON')
+//const jsonDir = path.join(dataDir, 'JSON')
 const dataFile = path.join(dataDir, 'Software-Listing.log')
 const finalCSV = path.join(dataDir, 'Software-Listing_final.csv')
 
 // create data directories and files
 fs.existsSync(dataDir) || fs.mkdirSync(dataDir)
-fs.existsSync(jsonDir) || fs.mkdirSync(jsonDir)
+//fs.existsSync(jsonDir) || fs.mkdirSync(jsonDir)
 fs.existsSync(dataFile) || fs.open(dataFile, 'w', (err) => { if (err) throw err })
 fs.existsSync(dataFile) || fs.writeFileSync(finalCSV, `"Timestamp",${regStructValues.map(value => { return '"' + value + '"' })}\n`)
 
