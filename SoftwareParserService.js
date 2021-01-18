@@ -2,6 +2,7 @@
  * Copyright (c) 2021 Mathieu Dijoux ALL RIGHTS RESERVED
  */
  
+const { json } = require('body-parser')
 const fs = require('fs')
 const path = require('path')
 
@@ -32,7 +33,8 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
 
   if (!exists) {
     // log successful registration
-    fs.appendFileSync(dataFile, softwarelist['Timestamp, Hostname, Username'] + '\n', (err) => {
+    var obj = JSON.stringify(softwarelist)
+    fs.appendFileSync(dataFile, obj + '\n', (err) => {
       if (err) throw err
     })
 //    const jsonFile = path.join(jsonDir, softwarelist['Hostname']+'.json')
@@ -42,7 +44,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
         fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
             if (err) throw err
           })
-          console.log(softwarelist['Timestamp']  + softwarelist[' Hostname '] + " : " + "Successful.")
+          console.log(softwarelist['Timestamp']  + softwarelist['Hostname'] + " : " + "Successful.")
           return { "response": "success" }
         }
         else {
