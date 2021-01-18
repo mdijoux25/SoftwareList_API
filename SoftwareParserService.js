@@ -35,8 +35,8 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
     fs.appendFileSync(dataFile, softwarelist['Timestamp, '] + softwarelist[ ' Hostname, '] + softwarelist[ ' Username '] + '\n', (err) => {
       if (err) throw err
     })
-    const jsonFile = path.join(jsonDir, softwarelist['Hostname']+'.json')
-    fs.writeFileSync(jsonFile,)
+//    const jsonFile = path.join(jsonDir, softwarelist['Hostname']+'.json')
+//    fs.writeFileSync(jsonFile,)
 
         // create CSV entry for M$ Autopilot
         fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
