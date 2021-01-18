@@ -8,13 +8,13 @@ const path = require('path')
 
 const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Software']
 const dataDir = path.join(__dirname, 'data')
-//const jsonDir = path.join(dataDir, 'JSON')
+const jsonDir = path.join(dataDir, 'JSON')
 const dataFile = path.join(dataDir, 'Software-Listing.log')
 const finalCSV = path.join(dataDir, 'Software-Listing_final.csv')
 
 // create data directories and files
 fs.existsSync(dataDir) || fs.mkdirSync(dataDir)
-//fs.existsSync(jsonDir) || fs.mkdirSync(jsonDir)
+fs.existsSync(jsonDir) || fs.mkdirSync(jsonDir)
 fs.existsSync(dataFile) || fs.open(dataFile, 'w', (err) => { if (err) throw err })
 fs.existsSync(dataFile) || fs.writeFileSync(finalCSV, `"Timestamp",${regStructValues.map(value => { return '"' + value + '"' })}\n`)
 
@@ -33,12 +33,13 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
 
   if (!exists) {
     // log successful registration
-    var obj = JSON.stringify(softwarelist)
-    fs.appendFileSync(dataFile, obj + '\n', (err) => {
+    
+    fs.appendFileSync(dataFile, softwarelist['Timestamp'] +"," + softwarelist['Hostname']+"," + softwarelist['Username'] + '\n', (err) => {
       if (err) throw err
     })
-//    const jsonFile = path.join(jsonDir, softwarelist['Hostname']+'.json')
-//    fs.writeFileSync(jsonFile,)
+      var jsonName= softwarelist['Hostname'] + ".json"
+      const jsonFile = path.join(jsonDir, jsonName)
+      fs.existsSync(jsonFile) || fs.writeFileSync(jsonFile, JSON.stringify(softwarelist))
 
         // create CSV entry for M$ Autopilot
         fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
@@ -48,7 +49,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
           return { "response": "success" }
         }
         else {
-          console.log(softwarelist['Hostname'] + " : " + " already made.")
+          console.log(softwarelist['Hostname'] + " : " + "already made.")
           return { "response": "Listing already made" }
         }
 }
