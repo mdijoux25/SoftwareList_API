@@ -5,7 +5,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Software', 'Count of Software']
+const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Software']
 const dataDir = path.join(__dirname, 'data')
 const dataFile = path.join(dataDir, 'Software-Listing.log')
 const finalCSV = path.join(dataDir, 'Software-Listing_final.csv')
@@ -30,7 +30,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
 
   if (!exists) {
     // log successful registration
-    fs.appendFileSync(dataFile, softwarelist['Timestamp', 'Hostname', 'Username', 'Count of Software'] + '\n', (err) => {
+    fs.appendFileSync(dataFile, softwarelist['Timestamp'] + softwarelist[ 'Hostname'] + softwarelist[ 'Username'] + '\n', (err) => {
       if (err) throw err
     })
 
@@ -38,7 +38,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
         fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
             if (err) throw err
           })
-          console.log(softwarelist['Timestamp', 'Hostname'] + " : " + "Successful.")
+          console.log(softwarelist['Timestamp'] + softwarelist[ 'Hostname'] + " : " + "Successful.")
           return { "response": "success" }
         }
         else {

@@ -20,13 +20,11 @@ $apinfo = New-Object psobject -Property @{
     "Username"          = $env:USERNAME
     "Domain"            = $env:USERDOMAIN
     "Software"          = $Software
-    "Count of Software" = $Software.count
 
 }
 
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
 Invoke-WebRequest -Uri $WebAPI -Method POST -Body ($apinfo | ConvertTo-Json) -ContentType "application/json" -UseBasicParsing
-pause
 }
 Set-Alias getsoftware -Value Get-Software | Out-Null
 Export-ModuleMember -Alias 'getsoftware' -Function 'Get-Software' | Out-Null
