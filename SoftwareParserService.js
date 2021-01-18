@@ -32,7 +32,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
 
   if (!exists) {
     // log successful registration
-    fs.appendFileSync(dataFile, softwarelist['Timestamp, '] + softwarelist[ ' Hostname, '] + softwarelist[ ' Username '] + '\n', (err) => {
+    fs.appendFileSync(dataFile, softwarelist['Timestamp, Hostname, Username'] + '\n', (err) => {
       if (err) throw err
     })
 //    const jsonFile = path.join(jsonDir, softwarelist['Hostname']+'.json')
