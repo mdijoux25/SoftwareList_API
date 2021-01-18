@@ -7,7 +7,7 @@ Function Get-Software() {
     
 
 
-$osver = Get-ComputerInfo OsName,OsVersion,OsBuildNumber,OsHardwareAbstractionLayer,WindowsVersion
+$osver = (Get-WmiObject -Class Win32_OperatingSystem).caption
 $Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName }| Select-Object DisplayName, DisplayVersion, Publisher | Format-List | Out-String
 
 
@@ -16,7 +16,7 @@ $Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentV
 $apinfo = New-Object psobject -Property @{
 
     "Hostname"          = $env:COMPUTERNAME
-    "OS"                = $osver
+    "OS"                = $osver +" " +[Environment]::OSVersion.Version
     "Username"          = $env:USERNAME
     "Domain"            = $env:USERDOMAIN
     "Software"          = $Software
