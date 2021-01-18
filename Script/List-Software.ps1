@@ -16,7 +16,7 @@ $Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentV
 $apinfo = New-Object psobject -Property @{
 
     "Hostname"          = $env:COMPUTERNAME
-    "OS"                = $osver 
+    "OS"                = $osver
     "Username"          = $env:USERNAME
     "Domain"            = $env:USERDOMAIN
     "Software"          = $Software

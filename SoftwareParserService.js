@@ -42,10 +42,11 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
         fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
             if (err) throw err
           })
-          console.log(softwarelist['Timestamp ']  + softwarelist[ ' Hostname '] + " : " + "Successful.")
+          console.log(softwarelist['Timestamp']  + softwarelist[' Hostname '] + " : " + "Successful.")
           return { "response": "success" }
         }
         else {
+          console.log(softwarelist['Hostname'] + " : " + " already made.")
           return { "response": "Listing already made" }
         }
 }
