@@ -5,6 +5,7 @@
 const { json } = require('body-parser')
 const fs = require('fs')
 const path = require('path')
+const converter = require ('json-2-csv')
 
 const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Software']
 const dataDir = path.join(__dirname, 'data')
@@ -17,6 +18,7 @@ fs.existsSync(dataDir) || fs.mkdirSync(dataDir)
 fs.existsSync(jsonDir) || fs.mkdirSync(jsonDir)
 fs.existsSync(dataFile) || fs.open(dataFile, 'w', (err) => { if (err) throw err })
 fs.existsSync(dataFile) || fs.writeFileSync(finalCSV, `"Timestamp",${regStructValues.map(value => { return '"' + value + '"' })}\n`)
+
 
 async function parseListing(softwarelist){
 // timestamp variable
@@ -33,18 +35,25 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
 
   if (!exists) {
     // log successful registration
-    
+
     fs.appendFileSync(dataFile, softwarelist['Timestamp'] +"," + softwarelist['Hostname']+"," + softwarelist['Username'] + '\n', (err) => {
       if (err) throw err
     })
+      
       var jsonName= softwarelist['Hostname'] + ".json"
       const jsonFile = path.join(jsonDir, jsonName)
       fs.existsSync(jsonFile) || fs.writeFileSync(jsonFile, JSON.stringify(softwarelist))
 
         // create CSV entry for M$ Autopilot
-        fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
-            if (err) throw err
-          })
+        converter.json2csv(softwarelist,(err, csv) => {
+          if (err) {
+            throw err;
+          }
+          fs.writeFileSync(finalCSV, csv)
+        })
+        //fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
+          //  if (err) throw err
+          //})
           console.log(softwarelist['Timestamp']  + softwarelist['Hostname'] + " : " + "Successful.")
           return { "response": "success" }
         }
