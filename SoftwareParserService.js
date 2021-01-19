@@ -45,12 +45,16 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
       fs.existsSync(jsonFile) || fs.writeFileSync(jsonFile, JSON.stringify(softwarelist))
 
         // create CSV entry for M$ Autopilot
-        converter.json2csv(softwarelist,(err, csv) => {
-          if (err) {
-            throw err;
-          }
-          fs.writeFileSync(finalCSV, csv)
-        })
+        let csv2jsonCallback = function (err, json) {
+          if (err) throw err;
+          console.log(typeof json);
+          console.log(json.length);
+          console.log(json);
+          let options = {
+            unwindArrays : true
+          };
+        converter.json2csv(softwarelist,csv2jsonCallback ,options)
+        fs.writeFileSync(finalCSV, csv)
         //fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
           //  if (err) throw err
           //})
