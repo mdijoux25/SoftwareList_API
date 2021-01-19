@@ -7,14 +7,14 @@ Function Get-Software() {
     
 
 
-$Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName}| Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Sort-Object DisplayName  |Export-Csv -Path "$env:TEMP\soft.csv" -Delimiter "," -NoTypeInformation -Encoding UTF8
+Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName}| Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Sort-Object DisplayName  |Export-Csv -Path "$env:TEMP\soft.csv" -Delimiter "," -NoTypeInformation -Encoding UTF8
 $osver = (Get-WmiObject -Class Win32_OperatingSystem).caption +" "+[Environment]::OSVersion.Version  
 $apinfo = "" | Select Hostname,OS,Username,Domain,Software
 $apinfo.Hostname = $env:COMPUTERNAME
 $apinfo.OS = $osver
 $apinfo.Username = $env:USERNAME
 $apinfo.Domain = $env:USERDOMAIN
-$apinfo.Software = Import-Csv -Path "$env:TEMP\soft.csv"  | ConvertTo-Json
+$apinfo.Software = Import-Csv -Path "$env:TEMP\soft.csv"
 $json += $apinfo
 
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12

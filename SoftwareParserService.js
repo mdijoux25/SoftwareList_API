@@ -7,7 +7,6 @@ const fs = require('fs')
 const path = require('path')
 const converter = require ('json-2-csv')
 
-const regStructValues = ['Hostname', 'OS', 'Username', 'Domain', 'Software']
 const dataDir = path.join(__dirname, 'data')
 const jsonDir = path.join(dataDir, 'JSON')
 const dataFile = path.join(dataDir, 'Software-Listing.log')
@@ -17,7 +16,7 @@ const finalCSV = path.join(dataDir, 'Software-Listing_final.csv')
 fs.existsSync(dataDir) || fs.mkdirSync(dataDir)
 fs.existsSync(jsonDir) || fs.mkdirSync(jsonDir)
 fs.existsSync(dataFile) || fs.open(dataFile, 'w', (err) => { if (err) throw err })
-fs.existsSync(dataFile) || fs.writeFileSync(finalCSV, `"Timestamp",${regStructValues.map(value => { return '"' + value + '"' })}\n`)
+
 
 
 async function parseListing(softwarelist){
@@ -45,20 +44,27 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
       fs.existsSync(jsonFile) || fs.writeFileSync(jsonFile, JSON.stringify(softwarelist))
 
         // create CSV entry for M$ Autopilot
-        let csv2jsonCallback = function (err, json) {
-          if (err) throw err;
-          console.log(typeof json);
-          console.log(json.length);
-          console.log(json);
-          let options = {
-            unwindArrays : true
-          };
-        converter.json2csv(softwarelist,csv2jsonCallback ,options)
-        fs.writeFileSync(finalCSV, csv)
+        let options = {
+          delimiter : {
+            field : ','
+          },
+          expandArrayObjects : true,
+          unwindArrays : true,
+          excelBOM : true,
+          keys : ['Hostname', 'OS', 'Username', 'Domain', 'Software.DisplayVersion']
+        }
+        converter.json2csv(softwarelist,(err, csv) => {
+          if (err) {
+            throw err;
+            console.log(csv);
+          }
+          fs.writeFileSync(finalCSV, csv)
+        }, options)
+       
         //fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
           //  if (err) throw err
           //})
-          console.log(softwarelist['Timestamp']  + softwarelist['Hostname'] + " : " + "Successful.")
+          console.log(softwarelist['Timestamp']+" " + softwarelist['Hostname'] + " : " + "Successful.")
           return { "response": "success" }
         }
         else {
