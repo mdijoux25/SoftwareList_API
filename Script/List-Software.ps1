@@ -7,7 +7,7 @@ Function Get-Software() {
     
 
 
-$Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName}| Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Sort-Object DisplayName  |Export-Csv -Path "C:\soft.csv" -Delimiter "," -NoTypeInformation -Encoding UTF8
+$Software=Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName}| Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Sort-Object DisplayName  |Export-Csv -Path "$env:TEMP\soft.csv" -Delimiter "," -NoTypeInformation -Encoding UTF8
 $osver = (Get-WmiObject -Class Win32_OperatingSystem).caption +" "+[Environment]::OSVersion.Version  
 $apinfo = "" | Select Hostname,OS,Username,Domain
 $apinfo.Hostname = $env:COMPUTERNAME
@@ -22,4 +22,4 @@ Invoke-WebRequest -Uri $WebAPI -Method POST -Body $json -ContentType "applicatio
 }
 Set-Alias getsoftware -Value Get-Software | Out-Null
 Export-ModuleMember -Alias 'getsoftware' -Function 'Get-Software' | Out-Null
-}
+}g
