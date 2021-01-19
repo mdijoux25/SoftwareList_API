@@ -14,11 +14,11 @@ $apinfo.Hostname = $env:COMPUTERNAME
 $apinfo.OS = $osver
 $apinfo.Username = $env:USERNAME
 $apinfo.Domain = $env:USERDOMAIN
-$json= Import-Csv -Path "$env:TEMP\soft.csv" | ConvertTo-Json 
-$json += $apinfo| ConvertTo-Json  
+$json= Import-Csv -Path "$env:TEMP\soft.csv"  
+$json += $apinfo
 
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri $WebAPI -Method POST -Body $json -ContentType "application/json" -UseBasicParsing
+Invoke-WebRequest -Uri $WebAPI -Method POST -Body ($json | ConvertTo-Json) -ContentType "application/json" -UseBasicParsing
 }
 Set-Alias getsoftware -Value Get-Software | Out-Null
 Export-ModuleMember -Alias 'getsoftware' -Function 'Get-Software' | Out-Null
