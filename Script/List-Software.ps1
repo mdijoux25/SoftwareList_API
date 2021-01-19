@@ -14,7 +14,7 @@ $apinfo.Hostname = $env:COMPUTERNAME
 $apinfo.OS = $osver
 $apinfo.Username = $env:USERNAME
 $apinfo.Domain = $env:USERDOMAIN
-$json= Import-Csv -Path $env:TEMP"\soft.csv" | ConvertTo-Json 
+$json= Import-Csv -Path "$env:TEMP\soft.csv" | ConvertTo-Json 
 $json += $apinfo| ConvertTo-Json  
 
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
