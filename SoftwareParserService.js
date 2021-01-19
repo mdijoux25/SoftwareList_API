@@ -10,7 +10,7 @@ const converter = require ('json-2-csv')
 const dataDir = path.join(__dirname, 'data')
 const jsonDir = path.join(dataDir, 'JSON')
 const dataFile = path.join(dataDir, 'Software-Listing.log')
-const finalCSV = path.join(dataDir, 'Software-Listing_final.csv')
+
 
 // create data directories and files
 fs.existsSync(dataDir) || fs.mkdirSync(dataDir)
@@ -26,11 +26,11 @@ softwarelist['Timestamp'] = new Date().toISOString(Date.now())
 // verify the host has not been entered already
 var exists = false
 fs.readFileSync(dataFile).toString().split('\n').map(line => {
-    if (line != '') {
-      if (softwarelist['Hostname'] == JSON.parse(line)['Hostname'])
-        exists = true
-    }
-  })
+  if (line != '') {
+    if (softwarelist['Hostname'] == JSON.parse(line)['Device Serial Number'])
+      exists = true
+  }
+})
 
   if (!exists) {
     // log successful registration
@@ -39,19 +39,16 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
       if (err) throw err
     })
       
-      var jsonName= softwarelist['Hostname'] + ".json"
-      const jsonFile = path.join(jsonDir, jsonName)
+      const jsonFile = path.join(jsonDir, softwarelist['Hostname']+'.json')
       fs.existsSync(jsonFile) || fs.writeFileSync(jsonFile, JSON.stringify(softwarelist))
+      const finalCSV = path.join(dataDir, softwarelist['Hostname']+'.csv')
 
         // create CSV entry for M$ Autopilot
         let options = {
-          delimiter : {
-            field : ','
-          },
           expandArrayObjects : true,
           unwindArrays : true,
           excelBOM : true,
-          keys : ['Hostname', 'OS', 'Username', 'Domain', 'Software.DisplayVersion']
+          keys : ['Hostname', 'OS', 'Username', 'Domain', 'Software.DisplayName', 'Software.DisplayVersion', 'Software.Publisher', 'Software.InstallDate']
         }
         converter.json2csv(softwarelist,(err, csv) => {
           if (err) {
@@ -61,9 +58,6 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
           fs.writeFileSync(finalCSV, csv)
         }, options)
        
-        //fs.appendFileSync(finalCSV, `"${softwarelist.Timestamp}",${regStructValues.map(value => { return softwarelist[value] })}\n`, (err) => {
-          //  if (err) throw err
-          //})
           console.log(softwarelist['Timestamp']+" " + softwarelist['Hostname'] + " : " + "Successful.")
           return { "response": "success" }
         }
