@@ -24,4 +24,4 @@ Remove-Item -Path "$env:TEMP\soft.csv"
 }
 Set-Alias getsoftware -Value Get-Software | Out-Null
 Export-ModuleMember -Alias 'getsoftware' -Function 'Get-Software' | Out-Null
-}g
+}
