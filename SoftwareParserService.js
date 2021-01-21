@@ -27,15 +27,14 @@ softwarelist['Timestamp'] = new Date().toISOString(Date.now())
 var exists = false
 fs.readFileSync(dataFile).toString().split('\n').map(line => {
   if (line != '') {
-    if (softwarelist['Hostname'] == JSON.parse(line)['Device Serial Number'])
+    if (softwarelist['Hostname'] == JSON.parse(line)['Hostname'])
       exists = true
   }
 })
 
   if (!exists) {
     // log successful registration
-
-    fs.appendFileSync(dataFile, softwarelist['Timestamp'] +"," + softwarelist['Hostname']+"," + softwarelist['Username'] + '\n', (err) => {
+    fs.appendFileSync(dataFile, JSON.stringify(softwarelist, ['Timestamp','Hostname', 'Username']) + '\n', (err) => {
       if (err) throw err
     })
       
