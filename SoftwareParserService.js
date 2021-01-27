@@ -52,7 +52,6 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
         converter.json2csv(softwarelist,(err, csv) => {
           if (err) {
             throw err;
-            console.log(csv);
           }
           fs.writeFileSync(finalCSV, csv)
         }, options)
