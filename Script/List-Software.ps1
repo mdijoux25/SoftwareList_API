@@ -15,7 +15,7 @@ $processor = (Get-WmiObject -Class Win32_Processor).Name
 #$rams = Get-WmiObject win32_physicalmemory | Select-Object Serialnumber,Capacity
 
 
-$apinfo = "" | Select-Object Hostname,OS,Username,Domain,BiosVersion,Serial,Processor,Software
+$apinfo = "" | Select-Object Hostname,OS,Username,Domain,BiosVersion,Serial,Processor,Monitor,Software
 $apinfo.Hostname = $env:COMPUTERNAME
 $apinfo.OS = $osver
 $apinfo.Username = $env:USERNAME
@@ -23,6 +23,7 @@ $apinfo.Domain = $domain
 $apinfo.BiosVersion = $biosVer
 $apinfo.Serial = $serial
 $apinfo.processor = $processor
+$apinfo.Monitor = Import-Csv -Path "$env:TEMP\hardware.csv" 
 $apinfo.Software = Import-Csv -Path "$env:TEMP\soft.csv"
 $json += $apinfo
 
