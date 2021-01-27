@@ -47,7 +47,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
           expandArrayObjects : true,
           unwindArrays : true,
           excelBOM : true,
-          keys : ['Hostname', 'OS', 'Username', 'Domain', 'Software.DisplayName', 'Software.DisplayVersion', 'Software.Publisher', 'Software.InstallDate']
+          keys : ['Hostname', 'OS', 'Username', 'Domain', 'BiosVersion', 'Serial', 'Processor', 'Software.DisplayName', 'Software.DisplayVersion', 'Software.Publisher', 'Software.InstallDate']
         }
         converter.json2csv(softwarelist,(err, csv) => {
           if (err) {
