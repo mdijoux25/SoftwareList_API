@@ -1,0 +1,9 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/5ca2f624-fcd5-452e-b07e-b8f852fb64ab/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/Software-listing",
+    "appService.deploySubpath": ".",
+    "git.ignoreLimitWarning": true
+}

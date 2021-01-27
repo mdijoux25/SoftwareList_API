@@ -12,10 +12,11 @@ $domain = (Get-CimInstance -ClassName Win32_ComputerSystem).Domain
 $biosVer= (Get-CimInstance -ClassName Win32_BIOS).SMBIOSBIOSVersion
 $serial= (Get-CimInstance -ClassName Win32_BIOS).SerialNumber
 $processor = (Get-WmiObject -Class Win32_Processor).Name
-#$rams = Get-WmiObject win32_physicalmemory | Select-Object Serialnumber,Capacity
+$Model= (Get-WmiObject -Class:Win32_ComputerSystem).Model
+$ram = (Get-WmiObject win32_physicalmemory).Capacity | Measure-Object -Sum
 
 
-$apinfo = "" | Select-Object Hostname,OS,Username,Domain,BiosVersion,Serial,Processor,Monitor,Software
+$apinfo = "" | Select-Object Hostname,OS,Username,Domain,BiosVersion,Serial,Processor,Monitor,Model,RamCount,RamSize,Software
 $apinfo.Hostname = $env:COMPUTERNAME
 $apinfo.OS = $osver
 $apinfo.Username = $env:USERNAME
@@ -23,6 +24,9 @@ $apinfo.Domain = $domain
 $apinfo.BiosVersion = $biosVer
 $apinfo.Serial = $serial
 $apinfo.processor = $processor
+$apinfo.Model = $Model
+$apinfo.RamCount = $ram.Count
+$apinfo.RamSize = $ram.Sum/1GB + "GB"
 $apinfo.Monitor = Import-Csv -Path "$env:TEMP\hardware.csv" 
 $apinfo.Software = Import-Csv -Path "$env:TEMP\soft.csv"
 $json += $apinfo
