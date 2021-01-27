@@ -31,6 +31,7 @@ $json += $apinfo
 Invoke-WebRequest -Uri $WebAPI -Method POST -Body ($json | ConvertTo-Json) -ContentType "application/json" -UseBasicParsing
 
 Remove-Item -Path "$env:TEMP\soft.csv"
+Remove-Item -Path "$env:TEMP\hardware.csv"
 }
 Set-Alias getsoftware -Value Get-Software | Out-Null
 Export-ModuleMember -Alias 'getsoftware' -Function 'Get-Software' | Out-Null
