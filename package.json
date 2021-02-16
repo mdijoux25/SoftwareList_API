@@ -1,5 +1,5 @@
 {
-  "name": "Software-Listing-API",
+  "name": "software-listing-api",
   "version": "1.0.0",
   "description": "Web API to collect software on Computer",
   "main": "server.js",

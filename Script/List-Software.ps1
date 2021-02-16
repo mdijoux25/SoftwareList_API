@@ -15,9 +15,19 @@
   $processor = (Get-WmiObject -Class Win32_Processor).Name
   $Model= (Get-WmiObject -Class:Win32_ComputerSystem).Model
   $ram = Get-WmiObject win32_physicalmemory | Measure-Object Capacity -Sum
+
+  function get-freq-user
+{
+    $newest=20
+    $ComputerName = $env:computername
+
+    $UserProperty = @{n="User";e={((New-Object System.Security.Principal.SecurityIdentifier $_.ReplacementStrings[1]).Translate([System.Security.Principal.NTAccount])).ToString()}}
+    $logs = Get-EventLog System -Source Microsoft-Windows-Winlogon -ComputerName $ComputerName -newest $newest | select $UserProperty
+    
+    $logs | Group-Object user | Sort Count | Select -First 1
+} 
   
-  
-  $apinfo = "" | Select-Object Hostname,OS,OSVer,Username,Domain,BiosVersion,Serial,Processor,Monitor,Model,RamCount,RamSize,Software
+  $apinfo = "" | Select-Object Hostname,OS,OSVer,Username,freqUser,Domain,BiosVersion,Serial,Processor,Monitor,Hardware,Model,RamCount,RamSize,Software
   $apinfo.Hostname = $env:COMPUTERNAME
   $apinfo.OS = $os 
   $apinfo.OSVer = $osVer
@@ -29,8 +39,10 @@
   $apinfo.Model = $Model
   $apinfo.RamCount = $ram.Count
   $apinfo.RamSize = $ram.Sum
-  $apinfo.Monitor = Import-Csv -Path "$env:TEMP\hardware.csv" 
+  $apinfo.Monitor = Import-Csv -Path "$env:TEMP\monitor.csv" 
+  $apinfo.Hardware = Import-Csv -Path "$env:TEMP\hardware.csv" 
   $apinfo.Software = Import-Csv -Path "$env:TEMP\soft.csv"
+  $apinfo.freqUser = get-freq-user | Select-Object Name
   $json += $apinfo
   
   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
@@ -38,6 +50,7 @@
   
   Remove-Item -Path "$env:TEMP\soft.csv"
   Remove-Item -Path "$env:TEMP\hardware.csv"
+  Remove-Item -Path "$env:TEMP\monitor.csv"
   }
   Set-Alias getsoftware -Value Get-Software | Out-Null
   Export-ModuleMember -Alias 'getsoftware' -Function 'Get-Software' | Out-Null

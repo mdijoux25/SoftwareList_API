@@ -47,7 +47,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
           expandArrayObjects : true,
           unwindArrays : true,
           excelBOM : true,
-          keys : ['Hostname','OS','OSVer','Username','Domain','BiosVersion','Model','Serial','Processor','RamCount','RamSize','Monitor.Type','Monitor.Ecran 1.Marque','Monitor.Ecran 1.Modele','Monitor.Ecran 1.Serial','Monitor.Ecran 2.Marque','Monitor.Ecran 2.Modele','Monitor.Ecran 2.Serial','Monitor.Ecran 3.Marque','Monitor.Ecran 3.Modele','Monitor.Ecran 3.Serial','Monitor.Disk1','Monitor.Disk1.Size','Monitor.Disk1.FreeSpace','Monitor.Disk2','Monitor.Disk2.Size','Monitor.Disk2.FreeSpace','Monitor.Disk3','Monitor.Disk3.Size','Monitor.Disk3.FreeSpace','Software.DisplayName','Software.DisplayVersion','Software.Publisher','Software.InstallDate']
+          keys : ['Hostname','OS','OSVer','Username','Domain','BiosVersion','Model','Serial','Processor','RamCount','RamSize','Monitor.Modele','Monitor.Serial','Monitor.Fabricant','Monitor.Ecrantype','Hardware.Type','Hardware.Disk1','Hardware.Disk1.Size','Hardware.Disk1.FreeSpace','Hardware.Disk2','Hardware.Disk2.Size','Hardware.Disk2.FreeSpace','Hardware.Disk3','Hardware.Disk3.Size','Hardware.Disk3.FreeSpace','Software.DisplayName','Software.DisplayVersion','Software.Publisher','Software.InstallDate']
         }
         converter.json2csv(softwarelist,(err, csv) => {
           if (err) {
