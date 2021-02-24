@@ -22,9 +22,9 @@
     $ComputerName = $env:computername
 
     $UserProperty = @{n="User";e={((New-Object System.Security.Principal.SecurityIdentifier $_.ReplacementStrings[1]).Translate([System.Security.Principal.NTAccount])).ToString()}}
-    $logs = Get-EventLog System -Source Microsoft-Windows-Winlogon -ComputerName $ComputerName -newest $newest | select $UserProperty
+    $logs = Get-EventLog System -Source Microsoft-Windows-Winlogon -ComputerName $ComputerName -newest $newest | Select-Object $UserProperty
     
-    $logs | Group-Object user | Sort Count | Select -First 1
+    $logs | Group-Object user | Sort-Object Count | Select-Object -First 1
 } 
   
   $apinfo = "" | Select-Object Hostname,OS,OSVer,Username,freqUser,Domain,BiosVersion,Serial,Processor,Monitor,Hardware,Model,RamCount,RamSize,Software
