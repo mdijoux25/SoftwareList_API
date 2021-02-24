@@ -13,7 +13,7 @@ cd SoftwareList_API
 npm install 
 npm start
 ```
-![Web API installation](./Media/install.gif)
+![Web API installation](./media/install.gif)
 
 ### Requirements (Web API)
 - Internet facing system (e.g. netlify, Azure AppService, self-hosted)
