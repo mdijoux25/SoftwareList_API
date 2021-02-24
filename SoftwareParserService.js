@@ -42,7 +42,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
       fs.existsSync(jsonFile) || fs.writeFileSync(jsonFile, JSON.stringify(softwarelist))
       const finalCSV = path.join(dataDir, softwarelist['Hostname']+'.csv')
 
-        // create CSV entry for M$ Autopilot
+        // create CSV entry
         let options = {
           expandArrayObjects : true,
           unwindArrays : true,
