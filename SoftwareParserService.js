@@ -61,7 +61,7 @@ fs.readFileSync(dataFile).toString().split('\n').map(line => {
         }
         else {
           console.log(softwarelist['Hostname'] + " : " + "already made.")
-          return { "response": "Listing already made" }
+          return { "response": "Inventaire déjà fait" }
         }
 }
 
